@@ -69,6 +69,50 @@
         ::-webkit-scrollbar-track { background: transparent; }
         .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
         .light ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+
+        /* Extra comfortable themes */
+        [data-theme="ocean"] body {
+            background: #071b2b !important; color: #e0f2fe !important;
+        }
+        [data-theme="ocean"] .glass-panel {
+            background: rgba(8, 47, 73, .92) !important;
+            border-color: rgba(56, 189, 248, .22) !important;
+        }
+        [data-theme="ocean"] .glass-card {
+            background: rgba(12, 74, 110, .52) !important;
+            border-color: rgba(56, 189, 248, .20) !important;
+        }
+        [data-theme="ocean"] .glass-card:hover {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, .22) !important;
+        }
+        [data-theme="ocean"] #app-body { background: #071b2b !important; color: #e0f2fe !important; }
+        [data-theme="lavender"] body {
+            background: #171329 !important; color: #f3e8ff !important;
+        }
+        [data-theme="lavender"] .glass-panel {
+            background: rgba(36, 27, 61, .94) !important;
+            border-color: rgba(196, 181, 253, .20) !important;
+        }
+        [data-theme="lavender"] .glass-card {
+            background: rgba(55, 40, 84, .68) !important;
+            border-color: rgba(196, 181, 253, .18) !important;
+        }
+        [data-theme="lavender"] .glass-card:hover {
+            border-color: #c4b5fd !important;
+            box-shadow: 0 10px 25px -5px rgba(167, 139, 250, .20) !important;
+        }
+        [data-theme="lavender"] #app-body { background: #171329 !important; color: #f3e8ff !important; }
+        [data-theme="light"] #app-body { background: #f8fafc !important; color: #0f172a !important; }
+        .theme-select {
+            max-width: 142px; border-radius: .6rem; padding: .45rem .55rem;
+            font-size: .75rem; font-weight: 600; outline: none;
+        }
+        .dark .theme-select, [data-theme="ocean"] .theme-select, [data-theme="lavender"] .theme-select {
+            background: #1e293b; color: #f1f5f9; border: 1px solid #475569;
+        }
+        .light .theme-select { background: #e2e8f0; color: #0f172a; border: 1px solid #cbd5e1; }
+
     </style>
 </head>
 <body class="h-full font-sans antialiased flex flex-col transition-colors duration-300 bg-slate-950 text-slate-100 dark:bg-slate-950 dark:text-slate-100 light:bg-slate-50 light:text-slate-900" id="app-body">
@@ -89,11 +133,16 @@
             </div>
 
             <div class="flex items-center space-x-2 sm:space-x-3">
-                <!-- DAY/NIGHT MODE TOGGLE BUTTON -->
-                <button onclick="app.toggleTheme()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 light:bg-slate-200 light:hover:bg-slate-300 text-amber-400 dark:text-amber-400 light:text-slate-800 border border-slate-700 dark:border-slate-700 light:border-slate-300 transition flex items-center gap-1.5" title="Toggle Day/Night Theme">
-                    <i id="theme-icon" class="fa-solid fa-moon"></i>
-                    <span id="theme-text" class="hidden sm:inline">Night</span>
-                </button>
+                <!-- COMFORTABLE THEME PICKER -->
+                <label class="flex items-center gap-1.5" title="Choose appearance theme">
+                    <i class="fa-solid fa-palette text-indigo-400"></i>
+                    <select id="theme-picker" class="theme-select" onchange="app.setTheme(this.value)" aria-label="Choose theme">
+                        <option value="dark">Midnight</option>
+                        <option value="light">Light</option>
+                        <option value="ocean">Ocean Blue</option>
+                        <option value="lavender">Lavender</option>
+                    </select>
+                </label>
 
                 <!-- ADMIN BUTTON -->
                 <button onclick="app.openAdminModal()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 dark:text-indigo-300 light:text-indigo-700 border border-indigo-500/30 transition flex items-center gap-1.5">
@@ -207,6 +256,29 @@
                             <button onclick="app.addNewChapter()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition">
                                 <i class="fa-solid fa-folder-plus mr-1"></i> Add Chapter
                             </button>
+                        </div>
+                    </div>
+
+                    <!-- DELETE SUBJECT / CHAPTER MANAGEMENT -->
+                    <div class="bg-rose-500/5 rounded-xl p-4 border border-rose-500/30 space-y-4">
+                        <div>
+                            <h4 class="text-xs font-bold text-rose-400 mb-1"><i class="fa-solid fa-trash-can mr-1.5"></i>Delete Subject / Chapter</h4>
+                            <p class="text-[11px] text-slate-400">डिलीट करने पर उस अध्याय के प्रश्न भी हट जाएंगे। यह कार्रवाई वापस नहीं की जा सकती।</p>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-slate-400">Select Subject to Delete</label>
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <select id="admin-delete-subject-select" class="min-w-0 flex-1 bg-slate-900 dark:bg-slate-900 light:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 rounded-lg p-2 text-xs"></select>
+                                <button onclick="app.deleteSelectedSubject()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-xs font-bold"><i class="fa-solid fa-trash mr-1"></i> Delete Subject</button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-slate-400">Select Subject and Chapter to Delete</label>
+                            <select id="admin-delete-ch-subj-select" onchange="app.onDeleteSubjectChange()" class="w-full bg-slate-900 dark:bg-slate-900 light:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 rounded-lg p-2 text-xs"></select>
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <select id="admin-delete-chapter-select" class="min-w-0 flex-1 bg-slate-900 dark:bg-slate-900 light:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 rounded-lg p-2 text-xs"></select>
+                                <button onclick="app.deleteSelectedChapter()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-xs font-bold"><i class="fa-solid fa-trash mr-1"></i> Delete Chapter</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -436,35 +508,31 @@
             }
 
             initTheme() {
-                const body = document.documentElement;
-                if (this.theme === 'light') {
-                    body.classList.remove('dark');
-                    body.classList.add('light');
-                } else {
-                    body.classList.remove('light');
-                    body.classList.add('dark');
-                }
+                const root = document.documentElement;
+                root.dataset.theme = this.theme;
+                root.classList.remove('dark', 'light');
+                // Preserve existing Tailwind dark/light styling while allowing two extra palettes.
+                if (this.theme === 'light') root.classList.add('light');
+                else root.classList.add('dark');
                 this.updateThemeUI();
             }
 
-            toggleTheme() {
-                this.theme = this.theme === 'dark' ? 'light' : 'dark';
+            setTheme(theme) {
+                const allowed = ['dark', 'light', 'ocean', 'lavender'];
+                this.theme = allowed.includes(theme) ? theme : 'dark';
                 localStorage.setItem('rrb_theme', this.theme);
                 this.initTheme();
             }
 
-            updateThemeUI() {
-                const icon = document.getElementById('theme-icon');
-                const text = document.getElementById('theme-text');
-                if (!icon || !text) return;
+            toggleTheme() {
+                const themes = ['dark', 'light', 'ocean', 'lavender'];
+                const next = (themes.indexOf(this.theme) + 1) % themes.length;
+                this.setTheme(themes[next]);
+            }
 
-                if (this.theme === 'light') {
-                    icon.className = "fa-solid fa-sun text-amber-500";
-                    text.innerText = "Day Mode";
-                } else {
-                    icon.className = "fa-solid fa-moon text-indigo-400";
-                    text.innerText = "Night Mode";
-                }
+            updateThemeUI() {
+                const picker = document.getElementById('theme-picker');
+                if (picker) picker.value = this.theme;
             }
 
             initDB() {
@@ -483,88 +551,113 @@
             navToHome() {
                 this.stopTimer();
                 this.currentTest = null;
+                this.selectedSubjectId = null;
                 this.renderHome();
             }
 
             renderHome() {
                 const viewport = document.getElementById('app-viewport');
                 let html = `
-                    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-900 via-blue-900 to-slate-900 border border-indigo-500/20 p-6 sm:p-10 mb-8 shadow-2xl text-white">
-                        <div class="relative z-10 max-w-3xl">
-                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 mb-4">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                                Live Test Portal Ready
-                            </span>
-                            <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
-                                RRB Technician Grade-I (Signal) <br/>
-                                <span class="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">Free Practice & Chapter Test Portal</span>
-                            </h2>
-                            <p class="mt-3 text-slate-300 text-xs sm:text-sm leading-relaxed">
-                                मैथमेटिक्स एवं सामान्य बुद्धिमत्ता (Reasoning) के सभी बेसिक से एडवांस्ड अध्यायों का अभ्यास। परीक्षा इंटरफ़ेस, इंस्टेंट स्कोरकार्ड और सटीक हिंदी हल के साथ।
-                            </p>
+                    <section class="mb-8">
+                        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-5">
+                            <div>
+                                <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Subjects</h2>
+                            </div>
                         </div>
-                    </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 `;
 
                 this.db.forEach((subj) => {
                     html += `
-                        <div class="mb-10">
-                            <div class="flex items-center gap-3 mb-5 border-b border-slate-800 dark:border-slate-800 light:border-slate-200 pb-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${subj.color} flex items-center justify-center text-white text-lg shadow-md">
-                                    <i class="fa-solid ${subj.icon}"></i>
+                        <article class="glass-card rounded-2xl p-5 flex flex-col justify-between min-h-[170px]">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${subj.color || 'from-indigo-600 to-purple-600'} flex items-center justify-center text-white text-xl shadow-md shrink-0">
+                                    <i class="fa-solid ${subj.icon || 'fa-book-open'}"></i>
                                 </div>
-                                <div>
-                                    <h3 class="text-lg sm:text-xl font-bold">${subj.name}</h3>
-                                    <p class="text-xs text-slate-400">${subj.chapters.length} Total Chapters</p>
+                                <div class="min-w-0">
+                                    <h3 class="text-lg font-bold leading-snug">${subj.name}</h3>
                                 </div>
                             </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="mt-5 flex justify-end">
+                                <button onclick="app.renderChapters('${subj.id}')" class="px-4 py-2 rounded-xl text-sm font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition shadow-md shadow-indigo-600/20">
+                                    Explore <i class="fa-solid fa-arrow-right ml-1.5"></i>
+                                </button>
+                            </div>
+                        </article>
                     `;
-
-                    subj.chapters.forEach(ch => {
-                        const qList = this.questions[ch.id] || [];
-                        const qCount = qList.length;
-                        const timePerQ = ch.timePerQ || 60;
-                        const totalSecs = qCount * timePerQ;
-                        const mins = Math.ceil(totalSecs / 60);
-
-                        html += `
-                            <div class="glass-card rounded-2xl p-4 flex flex-col justify-between">
-                                <div>
-                                    <div class="flex justify-between items-start mb-3">
-                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                                            ${ch.cat}
-                                        </span>
-                                        <span class="text-xs font-semibold px-2 py-0.5 rounded-md ${qCount > 0 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-slate-800 text-slate-400'}">
-                                            <i class="fa-solid fa-list-check mr-1"></i> ${qCount} Qs
-                                        </span>
-                                    </div>
-                                    
-                                    <div class="flex items-start gap-3">
-                                        <div class="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
-                                            <i class="fa-solid ${ch.icon || 'fa-book-open'} text-sm"></i>
-                                        </div>
-                                        <h4 class="text-sm font-bold leading-snug flex-1">
-                                            ${ch.title}
-                                        </h4>
-                                    </div>
-                                </div>
-
-                                <div class="mt-5 pt-3 border-t border-slate-800/60 dark:border-slate-800/60 light:border-slate-200 flex items-center justify-between">
-                                    <span class="text-[11px] text-slate-400"><i class="fa-solid fa-clock mr-1"></i> ${mins} Mins (${timePerQ}s/Q)</span>
-                                    <button onclick="app.startTest('${subj.id}', '${ch.id}')" ${qCount === 0 ? 'disabled' : ''} class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition ${qCount > 0 ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/30' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}">
-                                        ${qCount > 0 ? 'Start Mock Test <i class="fa-solid fa-arrow-right ml-1"></i>' : 'No Questions'}
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                    });
-
-                    html += `</div></div>`;
                 });
 
+                html += `</div></section>`;
                 viewport.innerHTML = html;
+                this.updateThemeUI();
+            }
+
+            renderChapters(subjId) {
+                const subj = this.db.find(s => s.id === subjId);
+                if (!subj) return this.renderHome();
+                this.stopTimer();
+                this.currentTest = null;
+                this.selectedSubjectId = subjId;
+
+                const viewport = document.getElementById('app-viewport');
+                let html = `
+                    <div class="mb-6">
+                        <button onclick="app.navToHome()" class="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-indigo-400 hover:text-indigo-300">
+                            <i class="fa-solid fa-arrow-left"></i> All Subjects
+                        </button>
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-11 h-11 rounded-xl bg-gradient-to-br ${subj.color || 'from-indigo-600 to-purple-600'} flex items-center justify-center text-white text-lg">
+                                <i class="fa-solid ${subj.icon || 'fa-book-open'}"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl sm:text-3xl font-extrabold">${subj.name}</h2>
+                                <p class="text-sm text-slate-400">अध्याय चुनें और फिर टेस्ट शुरू करें।</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                if (!subj.chapters || subj.chapters.length === 0) {
+                    html += `<div class="glass-panel rounded-2xl p-8 text-center">
+                        <i class="fa-solid fa-folder-open text-3xl text-slate-400 mb-3"></i>
+                        <p class="font-semibold">इस विषय में अभी कोई अध्याय नहीं है।</p>
+                        <p class="text-sm text-slate-400 mt-1">Admin Manager → Add Subject / Chapter से अध्याय जोड़ें।</p>
+                    </div>`;
+                } else {
+                    html += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">`;
+                    subj.chapters.forEach(ch => {
+                        const qCount = (this.questions[ch.id] || []).length;
+                        const timePerQ = ch.timePerQ || 60;
+                        const mins = Math.ceil(qCount * timePerQ / 60);
+                        html += `
+                            <article class="glass-card rounded-2xl p-5 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center justify-between gap-2 mb-4">
+                                        <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">${ch.cat || 'Chapter'}</span>
+                                        <span class="text-xs font-semibold px-2 py-1 rounded-md ${qCount > 0 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-slate-500/10 text-slate-400'}">${qCount} Questions</span>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0">
+                                            <i class="fa-solid ${ch.icon || 'fa-folder'}"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold leading-snug">${ch.title}</h3>
+                                            <p class="mt-2 text-xs text-slate-400"><i class="fa-regular fa-clock mr-1"></i>${mins} min · ${timePerQ} sec/question</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-5 pt-4 border-t border-slate-700/30 flex justify-end">
+                                    <button onclick="app.startTest('${subj.id}', '${ch.id}')" ${qCount === 0 ? 'disabled' : ''} class="px-4 py-2 rounded-xl text-sm font-semibold transition ${qCount > 0 ? 'bg-indigo-600 hover:bg-indigo-500 text-white' : 'bg-slate-500/10 text-slate-400 cursor-not-allowed'}">
+                                        ${qCount > 0 ? 'Start Test' : 'No Questions Yet'} <i class="fa-solid fa-arrow-right ml-1"></i>
+                                    </button>
+                                </div>
+                            </article>
+                        `;
+                    });
+                    html += `</div>`;
+                }
+                viewport.innerHTML = html;
+                this.updateThemeUI();
             }
 
             startTest(subjId, chId) {
@@ -1019,20 +1112,71 @@
                 const subjSelect = document.getElementById('admin-select-subject');
                 const subjSelectCh = document.getElementById('admin-add-ch-subj-select');
 
-                subjSelect.innerHTML = this.db.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
-                subjSelectCh.innerHTML = this.db.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+                const subjectOptions = this.db.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+                subjSelect.innerHTML = subjectOptions;
+                subjSelectCh.innerHTML = subjectOptions;
+                const deleteSubjectSelect = document.getElementById('admin-delete-subject-select');
+                const deleteChapterSubjectSelect = document.getElementById('admin-delete-ch-subj-select');
+                if (deleteSubjectSelect) deleteSubjectSelect.innerHTML = subjectOptions;
+                if (deleteChapterSubjectSelect) deleteChapterSubjectSelect.innerHTML = subjectOptions;
 
                 this.onAdminSubjectChange();
+                this.onDeleteSubjectChange();
             }
 
             onAdminSubjectChange() {
                 const subjId = document.getElementById('admin-select-subject').value;
                 const chSelect = document.getElementById('admin-select-chapter');
                 const subj = this.db.find(s => s.id === subjId);
+                chSelect.innerHTML = subj && subj.chapters.length
+                    ? subj.chapters.map(c => `<option value="${c.id}">${c.title}</option>`).join('')
+                    : '<option value="">कोई अध्याय नहीं</option>';
+            }
 
-                if (subj && subj.chapters) {
-                    chSelect.innerHTML = subj.chapters.map(c => `<option value="${c.id}">${c.title}</option>`).join('');
-                }
+            onDeleteSubjectChange() {
+                const subjId = document.getElementById('admin-delete-ch-subj-select')?.value;
+                const chSelect = document.getElementById('admin-delete-chapter-select');
+                if (!chSelect) return;
+                const subj = this.db.find(s => s.id === subjId);
+                chSelect.innerHTML = subj && subj.chapters && subj.chapters.length
+                    ? subj.chapters.map(c => `<option value="${c.id}">${c.title}</option>`).join('')
+                    : '<option value="">कोई अध्याय नहीं</option>';
+            }
+
+            deleteSelectedChapter() {
+                const subjId = document.getElementById('admin-delete-ch-subj-select').value;
+                const chId = document.getElementById('admin-delete-chapter-select').value;
+                const subj = this.db.find(s => s.id === subjId);
+                if (!subj || !chId) return alert('पहले विषय और अध्याय चुनें।');
+                const chapter = subj.chapters.find(c => c.id === chId);
+                if (!chapter) return alert('चुना गया अध्याय नहीं मिला।');
+                const questionCount = (this.questions[chId] || []).length;
+                if (!confirm(`क्या आप "${chapter.title}" अध्याय को ${questionCount} प्रश्नों सहित डिलीट करना चाहते हैं? यह कार्रवाई वापस नहीं की जा सकती।`)) return;
+
+                subj.chapters = subj.chapters.filter(c => c.id !== chId);
+                delete this.questions[chId];
+                this.saveStorage();
+                this.populateAdminSelects();
+                if (this.selectedSubjectId === subjId) this.renderChapters(subjId);
+                else this.renderHome();
+                alert('अध्याय और उसके सभी प्रश्न डिलीट कर दिए गए हैं।');
+            }
+
+            deleteSelectedSubject() {
+                const subjId = document.getElementById('admin-delete-subject-select').value;
+                const subj = this.db.find(s => s.id === subjId);
+                if (!subj) return alert('पहले विषय चुनें।');
+                const chapterCount = (subj.chapters || []).length;
+                const questionCount = (subj.chapters || []).reduce((total, ch) => total + (this.questions[ch.id] || []).length, 0);
+                if (!confirm(`क्या आप पूरा विषय "${subj.name}" डिलीट करना चाहते हैं? इसके ${chapterCount} अध्याय और ${questionCount} प्रश्न भी डिलीट होंगे। यह कार्रवाई वापस नहीं की जा सकती।`)) return;
+
+                (subj.chapters || []).forEach(ch => delete this.questions[ch.id]);
+                this.db = this.db.filter(s => s.id !== subjId);
+                if (this.selectedSubjectId === subjId) this.selectedSubjectId = null;
+                this.saveStorage();
+                this.populateAdminSelects();
+                this.renderHome();
+                alert('विषय, उसके अध्याय और संबंधित प्रश्न डिलीट कर दिए गए हैं।');
             }
 
             importQuestionsJSON() {
