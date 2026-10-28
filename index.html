@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="hi" class="h-full dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RRB Free Mock Test - Technician Grade-I (Signal)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Hind', 'sans-serif'],
+                        hindi: ['Hind', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter & Hind -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        .glass-panel {
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .dark .glass-panel {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .light .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 1);
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .glass-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .dark .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.25);
+            transform: translateY(-3px);
+        }
+        .light .glass-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .light .glass-card:hover {
+            border-color: #6366f1;
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.15);
+            transform: translateY(-3px);
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
+        .light ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    </style>
+</head>
+<body class="h-full font-sans antialiased flex flex-col transition-colors duration-300 bg-slate-950 text-slate-100 dark:bg-slate-950 dark:text-slate-100 light:bg-slate-50 light:text-slate-900" id="app-body">
+
+    <!-- HEADER PORTAL -->
+    <header class="sticky top-0 z-40 w-full glass-panel border-b border-slate-800 dark:border-slate-800 light:border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="app.navToHome()">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-train-subway text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight bg-gradient-to-r from-indigo-400 via-blue-400 to-cyan-400 dark:from-white dark:to-indigo-200 bg-clip-text text-transparent">
+                        RRB Free Mock Test
+                    </h1>
+                    <p class="text-xs text-indigo-500 dark:text-indigo-400 font-medium">Technician Grade-I (Signal) Portal</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <!-- DAY/NIGHT MODE TOGGLE BUTTON -->
+                <button onclick="app.toggleTheme()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 light:bg-slate-200 light:hover:bg-slate-300 text-amber-400 dark:text-amber-400 light:text-slate-800 border border-slate-700 dark:border-slate-700 light:border-slate-300 transition flex items-center gap-1.5" title="Toggle Day/Night Theme">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                    <span id="theme-text" class="hidden sm:inline">Night</span>
+                </button>
+
+                <!-- ADMIN BUTTON -->
+                <button onclick="app.openAdminModal()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 dark:text-indigo-300 light:text-indigo-700 border border-indigo-500/30 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span class="hidden sm:inline">Admin Manager</span>
+                </button>
+
+                <!-- HOME BUTTON -->
+                <button onclick="app.navToHome()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 light:bg-slate-200 light:hover:bg-slate-300 text-slate-200 dark:text-slate-200 light:text-slate-800 border border-slate-700 dark:border-slate-700 light:border-slate-300 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="hidden sm:inline">Home</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- VIEW CONTAINER -->
+    <main id="app-viewport" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <!-- Rendered Dynamically -->
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-900 dark:border-slate-900 light:border-slate-200 py-4 text-center text-xs text-slate-500 dark:text-slate-500 light:text-slate-600">
+        <p>© 2026 RRB Technician Grade-I (Signal) Practice Exam Engine</p>
+    </footer>
+
+    <!-- ADMIN MODAL -->
+    <div id="admin-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 dark:bg-slate-900 light:bg-white border border-slate-800 dark:border-slate-800 light:border-slate-200 rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden text-slate-100 dark:text-slate-100 light:text-slate-800">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-slate-800 dark:border-slate-800 light:border-slate-200 flex justify-between items-center bg-slate-950/50 dark:bg-slate-950/50 light:bg-slate-50">
+                <h3 class="text-base sm:text-lg font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-indigo-500"></i> Question, Time & Chapter Admin Panel
+                </h3>
+                <button onclick="app.closeAdminModal()" class="text-slate-400 hover:text-white dark:hover:text-white light:hover:text-slate-900 text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Content -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-6">
+                <!-- Tabs -->
+                <div class="flex border-b border-slate-800 dark:border-slate-800 light:border-slate-200 gap-4 text-sm font-medium">
+                    <button id="tab-btn-add-q" onclick="app.switchAdminTab('add-q')" class="pb-2 border-b-2 border-indigo-500 text-indigo-500 font-semibold">Add Questions & Time</button>
+                    <button id="tab-btn-add-ch" onclick="app.switchAdminTab('add-ch')" class="pb-2 text-slate-400">Add Subject / Chapter</button>
+                    <button id="tab-btn-backup" onclick="app.switchAdminTab('backup')" class="pb-2 text-slate-400">Backup & Reset</button>
+                </div>
+
+                <!-- TAB 1: ADD QUESTION & SET PER QUESTION TIME -->
+                <div id="tab-content-add-q" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Select Subject</label>
+                            <select id="admin-select-subject" onchange="app.onAdminSubjectChange()" class="w-full bg-slate-800 dark:bg-slate-800 light:bg-slate-100 border border-slate-700 dark:border-slate-700 light:border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm focus:outline-none focus:border-indigo-500">
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Select Chapter</label>
+                            <select id="admin-select-chapter" class="w-full bg-slate-800 dark:bg-slate-800 light:bg-slate-100 border border-slate-700 dark:border-slate-700 light:border-slate-300 rounded-lg p-2.5 text-xs sm:text-sm focus:outline-none focus:border-indigo-500">
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- CUSTOM TIME PER QUESTION SETTING -->
+                    <div class="bg-slate-800/40 dark:bg-slate-800/40 light:bg-slate-50 rounded-xl p-4 border border-slate-700/60 dark:border-slate-700/60 light:border-slate-200 space-y-2">
+                        <label class="block text-xs font-bold text-indigo-400 dark:text-indigo-400 light:text-indigo-600">
+                            <i class="fa-solid fa-stopwatch mr-1"></i> Time Limit Per Question (In Seconds)
+                        </label>
+                        <p class="text-[11px] text-slate-400">यह समय पूरे अध्याय के टाइमर को प्रश्नों की संख्या से गुणा करके ऑटो-एडजस्ट करेगा।</p>
+                        <div class="flex items-center gap-3">
+                            <input id="admin-time-per-q" type="number" min="10" max="600" value="60" class="w-32 bg-slate-900 dark:bg-slate-900 light:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 rounded-lg p-2 text-xs font-bold focus:outline-none focus:border-indigo-500">
+                            <span class="text-xs text-slate-400">Seconds / Question (Default: 60 sec)</span>
+                        </div>
+                    </div>
+
+                    <!-- BULK QUESTION JSON INPUT -->
+                    <div class="bg-slate-800/40 dark:bg-slate-800/40 light:bg-slate-50 rounded-xl p-4 border border-slate-700/60 dark:border-slate-700/60 light:border-slate-200 space-y-3">
+                        <h4 class="text-xs font-bold text-indigo-400 dark:text-indigo-400 light:text-indigo-600">Bulk Question Import (JSON Format)</h4>
+                        <p class="text-[11px] text-slate-400">फ़ॉर्मेट: <code class="bg-slate-900 dark:bg-slate-900 light:bg-slate-200 px-1 py-0.5 rounded text-indigo-400 dark:text-indigo-300 light:text-indigo-700">[{"q": "सवाल", "options": ["A", "B", "C", "D"], "ans": 0, "exp": "हल"}]</code></p>
+                        <textarea id="admin-json-input" rows="4" placeholder="यहाँ JSON array पेस्ट करें..." class="w-full bg-slate-900 dark:bg-slate-900 light:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 rounded-lg p-3 text-xs font-mono focus:outline-none focus:border-indigo-500"></textarea>
+                        <button onclick="app.importQuestionsJSON()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition">
+                            <i class="fa-solid fa-file-import mr-1.5"></i> Import Questions Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TAB 2: ADD SUBJECT OR CHAPTER -->
+                <div id="tab-content-add-ch" class="hidden space-y-4">
+                    <div class="bg-slate-800/40 dark:bg-slate-800/40 light:bg-slate-50 rounded-xl p-4 border border-slate-700/60 dark:border-slate-700/60 light:border-slate-200 space-y-3">
+                        <h4 class="text-xs font-bold text-indigo-400 dark:text-indigo-400 light:text-indigo-600">Add New Subject</h4>
+                        <div class="flex gap-2">
+                            <input id="admin-new-subj-name" type="text" placeholder="Subject Title (e.g. General Physics)" class="flex-1 bg-slate-900 dark:bg-slate-900 light:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 rounded-lg p-2 text-xs focus:outline-none focus:border-indigo-500">
+                            <button onclick="app.addNewSubject()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition">Add Subject</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-800/40 dark:bg-slate-800/40 light:bg-slate-50 rounded-xl p-4 border border-slate-700/60 dark:border-slate-700/60 light:border-slate-200 space-y-3">
+                        <h4 class="text-xs font-bold text-indigo-400 dark:text-indigo-400 light:text-indigo-600">Add New Chapter</h4>
+                        <div class="space-y-3">
+                            <select id="admin-add-ch-subj-select" class="w-full bg-slate-900 dark:bg-slate-900 light:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 rounded-lg p-2 text-xs">
+                            </select>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <input id="admin-new-ch-title" type="text" placeholder="Chapter Name (Hindi/English)" class="bg-slate-900 dark:bg-slate-900 light:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 rounded-lg p-2 text-xs">
+                                <select id="admin-new-ch-category" class="bg-slate-900 dark:bg-slate-900 light:bg-white border border-slate-700 dark:border-slate-700 light:border-slate-300 rounded-lg p-2 text-xs">
+                                    <option value="Basic">Basic (मूल)</option>
+                                    <option value="Arithmetic">Arithmetic (अंकगणित)</option>
+                                    <option value="Advanced">Advanced (उच्च गणित/रीजनिंग)</option>
+                                    <option value="Logical">Logical (तार्किक)</option>
+                                </select>
+                            </div>
+                            <button onclick="app.addNewChapter()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition">
+                                <i class="fa-solid fa-folder-plus mr-1"></i> Add Chapter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: BACKUP & RESTORE -->
+                <div id="tab-content-backup" class="hidden space-y-4">
+                    <div class="bg-slate-800/40 dark:bg-slate-800/40 light:bg-slate-50 rounded-xl p-4 border border-slate-700/60 dark:border-slate-700/60 light:border-slate-200 space-y-3">
+                        <h4 class="text-xs font-bold text-indigo-400 dark:text-indigo-400 light:text-indigo-600">Database Options</h4>
+                        <p class="text-xs text-slate-400">Save your full custom questions database or reset to standard pre-loaded chapters.</p>
+                        <div class="flex flex-wrap gap-3">
+                            <button onclick="app.exportDatabase()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-xs font-bold">
+                                <i class="fa-solid fa-download mr-1.5"></i> Export JSON Database
+                            </button>
+                            <button onclick="app.resetDatabase()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-xs font-bold">
+                                <i class="fa-solid fa-rotate-left mr-1.5"></i> Reset Database
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6 py-3 border-t border-slate-800 dark:border-slate-800 light:border-slate-200 bg-slate-950/80 dark:bg-slate-950/80 light:bg-slate-100 flex justify-end">
+                <button onclick="app.closeAdminModal()" class="px-4 py-1.5 bg-slate-800 dark:bg-slate-800 light:bg-slate-200 text-slate-300 dark:text-slate-300 light:text-slate-700 text-xs rounded-lg font-bold">Close Manager</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN JAVASCRIPT APPLICATION CODE -->
+    <script>
+        const DEFAULT_DATA = [
+            {
+                id: "subj-math",
+                name: "Mathematics — गणित",
+                icon: "fa-calculator",
+                color: "from-blue-600 to-indigo-600",
+                chapters: [
+                    { id: "m-1", cat: "Basic Mathematics", title: "Number System — संख्या पद्धति", qCount: 3, timePerQ: 60, icon: "fa-hashtag" },
+                    { id: "m-2", cat: "Basic Mathematics", title: "Natural, Whole and Integers — प्राकृतिक, पूर्ण एवं पूर्णांक संख्याएँ", qCount: 2, timePerQ: 60, icon: "fa-arrow-down-1-9" },
+                    { id: "m-3", cat: "Basic Mathematics", title: "Rational and Irrational Numbers — परिमेय एवं अपरिमेय संख्याएँ", qCount: 2, timePerQ: 60, icon: "fa-divide" },
+                    { id: "m-4", cat: "Basic Mathematics", title: "BODMAS Rule — सरलीकरण के नियम", qCount: 2, timePerQ: 60, icon: "fa-square-root-variable" },
+                    { id: "m-5", cat: "Basic Mathematics", title: "Fractions — भिन्न", qCount: 2, timePerQ: 60, icon: "fa-pie-chart" },
+                    { id: "m-6", cat: "Basic Mathematics", title: "Decimal Numbers — दशमलव संख्याएँ", qCount: 2, timePerQ: 60, icon: "fa-ellipsis" },
+                    { id: "m-7", cat: "Basic Mathematics", title: "Divisibility Rules — विभाज्यता के नियम", qCount: 2, timePerQ: 60, icon: "fa-percent" },
+                    { id: "m-8", cat: "Basic Mathematics", title: "LCM and HCF — लघुत्तम समापवर्त्य एवं महत्तम समापवर्तक", qCount: 2, timePerQ: 60, icon: "fa-cubes" },
+                    { id: "m-9", cat: "Basic Mathematics", title: "Square and Square Root — वर्ग एवं वर्गमूल", qCount: 2, timePerQ: 60, icon: "fa-superscript" },
+                    { id: "m-10", cat: "Basic Mathematics", title: "Cube and Cube Root — घन एवं घनमूल", qCount: 2, timePerQ: 60, icon: "fa-box" },
+                    { id: "m-11", cat: "Basic Mathematics", title: "Powers and Indices — घात एवं घातांक", qCount: 2, timePerQ: 60, icon: "fa-bolt" },
+                    { id: "m-12", cat: "Basic Mathematics", title: "Simplification — सरलीकरण", qCount: 2, timePerQ: 60, icon: "fa-wand-magic-sparkles" },
+                    { id: "m-13", cat: "Basic Mathematics", title: "Ratio and Proportion — अनुपात एवं समानुपात", qCount: 2, timePerQ: 60, icon: "fa-scale-balanced" },
+                    { id: "m-14", cat: "Basic Mathematics", title: "Percentage — प्रतिशत", qCount: 2, timePerQ: 60, icon: "fa-percent" },
+                    { id: "m-15", cat: "Basic Mathematics", title: "Average — औसत", qCount: 2, timePerQ: 60, icon: "fa-chart-simple" },
+                    { id: "m-16", cat: "Arithmetic", title: "Profit and Loss — लाभ एवं हानि", qCount: 2, timePerQ: 60, icon: "fa-chart-line" },
+                    { id: "m-17", cat: "Arithmetic", title: "Discount — छूट", qCount: 2, timePerQ: 60, icon: "fa-tags" },
+                    { id: "m-18", cat: "Arithmetic", title: "Simple Interest — साधारण ब्याज", qCount: 2, timePerQ: 60, icon: "fa-coins" },
+                    { id: "m-19", cat: "Arithmetic", title: "Compound Interest — चक्रवृद्धि ब्याज", qCount: 2, timePerQ: 60, icon: "fa-vault" },
+                    { id: "m-20", cat: "Arithmetic", title: "Time and Work — समय एवं कार्य", qCount: 2, timePerQ: 60, icon: "fa-clock" },
+                    { id: "m-21", cat: "Arithmetic", title: "Pipes and Cisterns — नल एवं टंकी", qCount: 2, timePerQ: 60, icon: "fa-faucet-drip" },
+                    { id: "m-22", cat: "Arithmetic", title: "Time, Speed and Distance — समय, चाल एवं दूरी", qCount: 2, timePerQ: 60, icon: "fa-gauge-high" },
+                    { id: "m-23", cat: "Arithmetic", title: "Trains — रेलगाड़ी से संबंधित प्रश्न", qCount: 2, timePerQ: 60, icon: "fa-train" },
+                    { id: "m-24", cat: "Arithmetic", title: "Boats and Streams — नाव एवं धारा", qCount: 2, timePerQ: 60, icon: "fa-ship" },
+                    { id: "m-25", cat: "Arithmetic", title: "Problems on Ages — आयु संबंधी प्रश्न", qCount: 2, timePerQ: 60, icon: "fa-user-clock" },
+                    { id: "m-26", cat: "Arithmetic", title: "Partnership — साझेदारी", qCount: 2, timePerQ: 60, icon: "fa-handshake" },
+                    { id: "m-27", cat: "Arithmetic", title: "Mixture and Alligation — मिश्रण एवं आरोपण", qCount: 2, timePerQ: 60, icon: "fa-flask" },
+                    { id: "m-28", cat: "Arithmetic", title: "Unitary Method — एकक विधि", qCount: 2, timePerQ: 60, icon: "fa-list-ol" },
+                    { id: "m-29", cat: "Arithmetic", title: "Problems on Numbers — संख्याओं पर आधारित प्रश्न", qCount: 2, timePerQ: 60, icon: "fa-arrow-down-1-9" },
+                    { id: "m-30", cat: "Algebra & Advanced", title: "Algebraic Expressions — बीजीय व्यंजक", qCount: 2, timePerQ: 60, icon: "fa-code" },
+                    { id: "m-31", cat: "Algebra & Advanced", title: "Algebraic Identities — बीजीय सर्वसमिकाएँ", qCount: 2, timePerQ: 60, icon: "fa-equals" },
+                    { id: "m-32", cat: "Algebra & Advanced", title: "Linear Equations — रैखिक समीकरण", qCount: 2, timePerQ: 60, icon: "fa-subscript" },
+                    { id: "m-33", cat: "Algebra & Advanced", title: "Quadratic Equations — द्विघात समीकरण", qCount: 2, timePerQ: 60, icon: "fa-wave-square" },
+                    { id: "m-34", cat: "Algebra & Advanced", title: "Arithmetic Progression (AP) — समांतर श्रेणी", qCount: 2, timePerQ: 60, icon: "fa-arrow-trend-up" },
+                    { id: "m-35", cat: "Algebra & Advanced", title: "Sets and Their Representations — समुच्चय एवं उनका निरूपण", qCount: 2, timePerQ: 60, icon: "fa-layer-group" },
+                    { id: "m-36", cat: "Algebra & Advanced", title: "Types of Sets — समुच्चयों के प्रकार", qCount: 2, timePerQ: 60, icon: "fa-object-group" },
+                    { id: "m-37", cat: "Algebra & Advanced", title: "Subsets and Universal Set — उपसमुच्चय एवं सार्वत्रिक समुच्चय", qCount: 2, timePerQ: 60, icon: "fa-circle-nodes" },
+                    { id: "m-38", cat: "Algebra & Advanced", title: "Union and Intersection of Sets — समुच्चयों का संघ एवं प्रतिच्छेद", qCount: 2, timePerQ: 60, icon: "fa-circle-notch" },
+                    { id: "m-39", cat: "Algebra & Advanced", title: "Difference and Complement of Sets — समुच्चयों का अंतर एवं पूरक", qCount: 2, timePerQ: 60, icon: "fa-adjust" },
+                    { id: "m-40", cat: "Algebra & Advanced", title: "Venn Diagrams — वेन आरेख", qCount: 2, timePerQ: 60, icon: "fa-chart-pie" },
+                    { id: "m-41", cat: "Algebra & Advanced", title: "Basic Geometry — मूल ज्यामिति", qCount: 2, timePerQ: 60, icon: "fa-draw-polygon" },
+                    { id: "m-42", cat: "Algebra & Advanced", title: "Lines and Angles — रेखाएँ एवं कोण", qCount: 2, timePerQ: 60, icon: "fa-ruler-combined" },
+                    { id: "m-43", cat: "Algebra & Advanced", title: "Triangles — त्रिभुज", qCount: 2, timePerQ: 60, icon: "fa-shapes" },
+                    { id: "m-44", cat: "Algebra & Advanced", title: "Similar Triangles — समरूप त्रिभुज", qCount: 2, timePerQ: 60, icon: "fa-clone" },
+                    { id: "m-45", cat: "Algebra & Advanced", title: "Pythagoras Theorem — पाइथागोरस प्रमेय", qCount: 2, timePerQ: 60, icon: "fa-vector-square" },
+                    { id: "m-46", cat: "Algebra & Advanced", title: "Quadrilaterals and Polygons — चतुर्भुज एवं बहुभुज", qCount: 2, timePerQ: 60, icon: "fa-square" },
+                    { id: "m-47", cat: "Algebra & Advanced", title: "Circles — वृत्त", qCount: 2, timePerQ: 60, icon: "fa-circle" },
+                    { id: "m-48", cat: "Algebra & Advanced", title: "Coordinate Geometry — निर्देशांक ज्यामिति", qCount: 2, timePerQ: 60, icon: "fa-location-crosshairs" },
+                    { id: "m-49", cat: "Algebra & Advanced", title: "Trigonometric Ratios — त्रिकोणमितीय अनुपात", qCount: 2, timePerQ: 60, icon: "fa-compass-drafting" },
+                    { id: "m-50", cat: "Algebra & Advanced", title: "Trigonometric Identities — त्रिकोणमितीय सर्वसमिकाएँ", qCount: 2, timePerQ: 60, icon: "fa-square-root-variable" },
+                    { id: "m-51", cat: "Algebra & Advanced", title: "Heights and Distances — ऊँचाई एवं दूरी", qCount: 2, timePerQ: 60, icon: "fa-mountain" },
+                    { id: "m-52", cat: "Algebra & Advanced", title: "Mensuration: 2D Figures — समतलीय क्षेत्रमिति", qCount: 2, timePerQ: 60, icon: "fa-border-all" },
+                    { id: "m-53", cat: "Algebra & Advanced", title: "Mensuration: 3D Solids — ठोस क्षेत्रमिति", qCount: 2, timePerQ: 60, icon: "fa-cube" },
+                    { id: "m-54", cat: "Algebra & Advanced", title: "Surface Area and Volume — पृष्ठीय क्षेत्रफल एवं आयतन", qCount: 2, timePerQ: 60, icon: "fa-box-open" },
+                    { id: "m-55", cat: "Algebra & Advanced", title: "Statistics — सांख्यिकी", qCount: 2, timePerQ: 60, icon: "fa-chart-column" },
+                    { id: "m-56", cat: "Algebra & Advanced", title: "Measures of Dispersion — प्रसरण के माप", qCount: 2, timePerQ: 60, icon: "fa-chart-area" },
+                    { id: "m-57", cat: "Algebra & Advanced", title: "Range — परास", qCount: 2, timePerQ: 60, icon: "fa-arrows-left-right" },
+                    { id: "m-58", cat: "Algebra & Advanced", title: "Mean Deviation — माध्य विचलन", qCount: 2, timePerQ: 60, icon: "fa-code-commit" },
+                    { id: "m-59", cat: "Algebra & Advanced", title: "Variance — प्रसरण", qCount: 2, timePerQ: 60, icon: "fa-network-wired" },
+                    { id: "m-60", cat: "Algebra & Advanced", title: "Standard Deviation — मानक विचलन", qCount: 2, timePerQ: 60, icon: "fa-chart-line" },
+                    { id: "m-61", cat: "Algebra & Advanced", title: "Probability — प्रायिकता", qCount: 2, timePerQ: 60, icon: "fa-dice" },
+                    { id: "m-62", cat: "Algebra & Advanced", title: "Exhaustive and Mutually Exclusive Events — संपूर्ण एवं परस्पर अपवर्जी घटनाएँ", qCount: 2, timePerQ: 60, icon: "fa-shuffle" },
+                    { id: "m-63", cat: "Algebra & Advanced", title: "Data Interpretation — आँकड़ों का विश्लेषण", qCount: 2, timePerQ: 60, icon: "fa-table-cells" }
+                ]
+            },
+            {
+                id: "subj-reasoning",
+                name: "General Intelligence & Reasoning — सामान्य बुद्धिमत्ता एवं तर्कशक्ति",
+                icon: "fa-brain",
+                color: "from-purple-600 to-pink-600",
+                chapters: [
+                    { id: "r-1", cat: "Basic Reasoning", title: "Analogy — सादृश्य", qCount: 3, timePerQ: 60, icon: "fa-scale-unbalanced" },
+                    { id: "r-2", cat: "Basic Reasoning", title: "Classification — वर्गीकरण", qCount: 2, timePerQ: 60, icon: "fa-filter" },
+                    { id: "r-3", cat: "Basic Reasoning", title: "Similarities and Differences — समानताएँ एवं असमानताएँ", qCount: 2, timePerQ: 60, icon: "fa-equals" },
+                    { id: "r-4", cat: "Basic Reasoning", title: "Alphabetical Series — वर्णमाला श्रृंखला", qCount: 2, timePerQ: 60, icon: "fa-font" },
+                    { id: "r-5", cat: "Basic Reasoning", title: "Number Series — संख्या श्रृंखला", qCount: 2, timePerQ: 60, icon: "fa-list-ol" },
+                    { id: "r-6", cat: "Basic Reasoning", title: "Alphanumeric Series — अक्षर-संख्या श्रृंखला", qCount: 2, timePerQ: 60, icon: "fa-key" },
+                    { id: "r-7", cat: "Basic Reasoning", title: "Missing Number — लुप्त संख्या", qCount: 2, timePerQ: 60, icon: "fa-question" },
+                    { id: "r-8", cat: "Basic Reasoning", title: "Coding and Decoding — कूटलेखन एवं कूटवाचन", qCount: 2, timePerQ: 60, icon: "fa-user-secret" },
+                    { id: "r-9", cat: "Basic Reasoning", title: "Mathematical Operations — गणितीय संक्रियाएँ", qCount: 2, timePerQ: 60, icon: "fa-plus-minus" },
+                    { id: "r-10", cat: "Basic Reasoning", title: "Word Formation — शब्द निर्माण", qCount: 2, timePerQ: 60, icon: "fa-spell-check" },
+                    { id: "r-11", cat: "Basic Reasoning", title: "Dictionary Order — शब्दकोश क्रम", qCount: 2, timePerQ: 60, icon: "fa-book" },
+                    { id: "r-12", cat: "Basic Reasoning", title: "Jumbling — क्रम परिवर्तन", qCount: 2, timePerQ: 60, icon: "fa-random" },
+                    { id: "r-13", cat: "Logical Reasoning", title: "Relationships — संबंध", qCount: 2, timePerQ: 60, icon: "fa-users" },
+                    { id: "r-14", cat: "Logical Reasoning", title: "Blood Relations — रक्त संबंध", qCount: 2, timePerQ: 60, icon: "fa-sitemap" },
+                    { id: "r-15", cat: "Logical Reasoning", title: "Direction Sense — दिशा ज्ञान", qCount: 2, timePerQ: 60, icon: "fa-compass" },
+                    { id: "r-16", cat: "Logical Reasoning", title: "Ranking and Order — रैंकिंग एवं क्रम", qCount: 2, timePerQ: 60, icon: "fa-ranking-star" },
+                    { id: "r-17", cat: "Logical Reasoning", title: "Syllogism — न्यायवाक्य", qCount: 2, timePerQ: 60, icon: "fa-diagram-project" },
+                    { id: "r-18", cat: "Logical Reasoning", title: "Venn Diagrams — वेन आरेख", qCount: 2, timePerQ: 60, icon: "fa-circle-nodes" },
+                    { id: "r-19", cat: "Logical Reasoning", title: "Statement and Conclusion — कथन एवं निष्कर्ष", qCount: 2, timePerQ: 60, icon: "fa-clipboard-check" },
+                    { id: "r-20", cat: "Logical Reasoning", title: "Statement and Assumptions — कथन एवं पूर्वधारणाएँ", qCount: 2, timePerQ: 60, icon: "fa-lightbulb" },
+                    { id: "r-21", cat: "Logical Reasoning", title: "Statement and Arguments — कथन एवं तर्क", qCount: 2, timePerQ: 60, icon: "fa-comments" },
+                    { id: "r-22", cat: "Logical Reasoning", title: "Decision Making — निर्णय क्षमता", qCount: 2, timePerQ: 60, icon: "fa-user-check" },
+                    { id: "r-23", cat: "Logical Reasoning", title: "Analytical Reasoning — विश्लेषणात्मक तर्कशक्ति", qCount: 2, timePerQ: 60, icon: "fa-magnifying-glass-chart" },
+                    { id: "r-24", cat: "Logical Reasoning", title: "Logical Sequence — तार्किक क्रम", qCount: 2, timePerQ: 60, icon: "fa-arrow-down-short-wide" },
+                    { id: "r-25", cat: "Logical Reasoning", title: "Cause and Effect — कारण एवं प्रभाव", qCount: 2, timePerQ: 60, icon: "fa-right-left" },
+                    { id: "r-26", cat: "Logical Reasoning", title: "Assertion and Reason — अभिकथन एवं कारण", qCount: 2, timePerQ: 60, icon: "fa-circle-exclamation" },
+                    { id: "r-27", cat: "Logical Reasoning", title: "Data Sufficiency — आँकड़ों की पर्याप्तता", qCount: 2, timePerQ: 60, icon: "fa-database" },
+                    { id: "r-28", cat: "Logical Reasoning", title: "Data Interpretation — आँकड़ों का विश्लेषण", qCount: 2, timePerQ: 60, icon: "fa-chart-pie" },
+                    { id: "r-29", cat: "Advanced Reasoning", title: "Seating Arrangement — बैठने की व्यवस्था", qCount: 2, timePerQ: 60, icon: "fa-chair" },
+                    { id: "r-30", cat: "Advanced Reasoning", title: "Linear Seating Arrangement — रैखिक बैठक व्यवस्था", qCount: 2, timePerQ: 60, icon: "fa-grip-lines" },
+                    { id: "r-31", cat: "Advanced Reasoning", title: "Circular Seating Arrangement — वृत्ताकार बैठक व्यवस्था", qCount: 2, timePerQ: 60, icon: "fa-arrows-spin" },
+                    { id: "r-32", cat: "Advanced Reasoning", title: "Puzzle Test — पहेली आधारित प्रश्न", qCount: 2, timePerQ: 60, icon: "fa-puzzle-piece" },
+                    { id: "r-33", cat: "Advanced Reasoning", title: "Floor-Based Puzzle — मंजिल आधारित पहेली", qCount: 2, timePerQ: 60, icon: "fa-building" },
+                    { id: "r-34", cat: "Advanced Reasoning", title: "Box and Scheduling Puzzle — बॉक्स एवं समय-सारणी पहेली", qCount: 2, timePerQ: 60, icon: "fa-boxes-stacked" },
+                    { id: "r-35", cat: "Advanced Reasoning", title: "Calendar — कैलेंडर", qCount: 2, timePerQ: 60, icon: "fa-calendar-days" },
+                    { id: "r-36", cat: "Advanced Reasoning", title: "Clock — घड़ी", qCount: 2, timePerQ: 60, icon: "fa-clock" },
+                    { id: "r-37", cat: "Advanced Reasoning", title: "Non-Verbal Reasoning — अशाब्दिक तर्कशक्ति", qCount: 2, timePerQ: 60, icon: "fa-eye" },
+                    { id: "r-38", cat: "Advanced Reasoning", title: "Figure Classification — आकृति वर्गीकरण", qCount: 2, timePerQ: 60, icon: "fa-shapes" },
+                    { id: "r-39", cat: "Advanced Reasoning", title: "Figure Series — आकृति श्रृंखला", qCount: 2, timePerQ: 60, icon: "fa-clone" },
+                    { id: "r-40", cat: "Advanced Reasoning", title: "Mirror Images — दर्पण प्रतिबिंब", qCount: 2, timePerQ: 60, icon: "fa-clone" },
+                    { id: "r-41", cat: "Advanced Reasoning", title: "Water Images — जल प्रतिबिंब", qCount: 2, timePerQ: 60, icon: "fa-water" },
+                    { id: "r-42", cat: "Advanced Reasoning", title: "Paper Folding and Cutting — कागज मोड़ना एवं काटना", qCount: 2, timePerQ: 60, icon: "fa-scissors" },
+                    { id: "r-43", cat: "Advanced Reasoning", title: "Embedded Figures — अंतर्निहित आकृतियाँ", qCount: 2, timePerQ: 60, icon: "fa-vector-square" },
+                    { id: "r-44", cat: "Advanced Reasoning", title: "Counting of Figures — आकृतियों की गणना", qCount: 2, timePerQ: 60, icon: "fa-border-top-left" },
+                    { id: "r-45", cat: "Advanced Reasoning", title: "Cube and Dice — घन एवं पासा", qCount: 2, timePerQ: 60, icon: "fa-dice-d6" },
+                    { id: "r-46", cat: "Advanced Reasoning", title: "Spatial Visualization — स्थानिक दृश्यांकन", qCount: 2, timePerQ: 60, icon: "fa-cubes" },
+                    { id: "r-47", cat: "Advanced Reasoning", title: "Spatial Orientation — स्थानिक अभिविन्यास", qCount: 2, timePerQ: 60, icon: "fa-compass-drafting" }
+                ]
+            }
+        ];
+
+        const DEFAULT_QUESTIONS = {
+            "m-1": [
+                {
+                    q: "प्रथम 50 प्राकृतिक संख्याओं का योग (Sum of first 50 natural numbers) क्या होगा?",
+                    options: ["1225", "1275", "1300", "1250"],
+                    ans: 1,
+                    exp: "सूत्र: Sum = n(n + 1) / 2 = 50 × 51 / 2 = 25 × 51 = 1275. सही उत्तर विकल्प B है।"
+                },
+                {
+                    q: "यदि किसी संख्या को 899 से भाग देने पर शेषफल 63 प्राप्त होता है, तो उसी संख्या को 29 से भाग देने पर शेषफल क्या होगा?",
+                    options: ["10", "5", "4", "2"],
+                    ans: 1,
+                    exp: "यहाँ 899, 29 से पूर्णतः विभाजित है। इसलिए सीधे शेषफल (63) को 29 से भाग दें: 63 = (29 × 2) + 5। शेषफल = 5।"
+                },
+                {
+                    q: "निम्न में से कौन-सी अभाज्य संख्या (Prime Number) है?",
+                    options: ["91", "161", "173", "221"],
+                    ans: 2,
+                    exp: "91 = 7 × 13; 161 = 7 × 23; 221 = 13 × 17; जबकि 173 केवल 1 और स्वयं से विभाजित होता है।"
+                }
+            ],
+            "m-14": [
+                {
+                    q: "यदि A की आय B से 25% अधिक है, तो B की आय A से कितने प्रतिशत कम है?",
+                    options: ["20%", "25%", "15%", "30%"],
+                    ans: 0,
+                    exp: "प्रतिशत कमी = [R / (100 + R)] × 100 = [25 / 125] × 100 = 20%।"
+                },
+                {
+                    q: "एक परीक्षा में उत्तीर्ण होने के लिए 36% अंकों की आवश्यकता है। एक छात्र को 113 अंक मिले और वह 85 अंकों से फेल हुआ। कुल पूर्णांक क्या है?",
+                    options: ["500", "550", "600", "650"],
+                    ans: 1,
+                    exp: "उत्तीर्णांक = 113 + 85 = 198। अब 36% = 198, अतः 100% = (198 / 36) × 100 = 550।"
+                }
+            ],
+            "r-1": [
+                {
+                    q: "जिस प्रकार 'विद्युत धारा' का संबंध 'एम्पीयर' से है, उसी प्रकार 'दाब' का संबंध किससे है?",
+                    options: ["जूल", "पास्कल", "वाट", "न्यूटन"],
+                    ans: 1,
+                    exp: "विद्युत धारा का SI मात्रक एम्पीयर (Ampere) है, ठीक उसी प्रकार दाब (Pressure) का SI मात्रक पास्कल (Pascal) होता है।"
+                },
+                {
+                    q: "दिए गए विकल्पों में से संबंधित अक्षर-युग्म चुनें: BCD : EFG :: LMN : ?",
+                    options: ["OPQ", "NMO", "ORS", "PQR"],
+                    ans: 0,
+                    exp: "प्रत्येक अक्षर में +3 जोड़ा गया है: B+3=E, C+3=F, D+3=G। इसी प्रकार L+3=O, M+3=P, N+3=Q (OPQ)।"
+                }
+            ],
+            "r-14": [
+                {
+                    q: "एक तस्वीर की ओर इशारा करते हुए, एक महिला ने कहा, 'उसके पिता की मां मेरे पति की मां है।' तस्वीर वाले व्यक्ति का महिला से क्या संबंध है?",
+                    options: ["पति", "पुत्र", "देवर", "भाई"],
+                    ans: 1,
+                    exp: "महिला के पति की मां = महिला की सास। उस व्यक्ति के पिता की मां = उस व्यक्ति की दादी। व्यक्ति महिला का पुत्र है।"
+                }
+            ]
+        };
+
+        class RRBApp {
+            constructor() {
+                this.db = null;
+                this.questions = {};
+                this.currentTest = null;
+                this.timerInterval = null;
+                this.theme = localStorage.getItem('rrb_theme') || 'dark';
+                this.initTheme();
+                this.initDB();
+            }
+
+            initTheme() {
+                const body = document.documentElement;
+                if (this.theme === 'light') {
+                    body.classList.remove('dark');
+                    body.classList.add('light');
+                } else {
+                    body.classList.remove('light');
+                    body.classList.add('dark');
+                }
+                this.updateThemeUI();
+            }
+
+            toggleTheme() {
+                this.theme = this.theme === 'dark' ? 'light' : 'dark';
+                localStorage.setItem('rrb_theme', this.theme);
+                this.initTheme();
+            }
+
+            updateThemeUI() {
+                const icon = document.getElementById('theme-icon');
+                const text = document.getElementById('theme-text');
+                if (!icon || !text) return;
+
+                if (this.theme === 'light') {
+                    icon.className = "fa-solid fa-sun text-amber-500";
+                    text.innerText = "Day Mode";
+                } else {
+                    icon.className = "fa-solid fa-moon text-indigo-400";
+                    text.innerText = "Night Mode";
+                }
+            }
+
+            initDB() {
+                const storedDB = localStorage.getItem('rrb_mock_db_v2');
+                const storedQ = localStorage.getItem('rrb_mock_questions_v2');
+                this.db = storedDB ? JSON.parse(storedDB) : DEFAULT_DATA;
+                this.questions = storedQ ? JSON.parse(storedQ) : DEFAULT_QUESTIONS;
+                this.saveStorage();
+            }
+
+            saveStorage() {
+                localStorage.setItem('rrb_mock_db_v2', JSON.stringify(this.db));
+                localStorage.setItem('rrb_mock_questions_v2', JSON.stringify(this.questions));
+            }
+
+            navToHome() {
+                this.stopTimer();
+                this.currentTest = null;
+                this.renderHome();
+            }
+
+            renderHome() {
+                const viewport = document.getElementById('app-viewport');
+                let html = `
+                    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-900 via-blue-900 to-slate-900 border border-indigo-500/20 p-6 sm:p-10 mb-8 shadow-2xl text-white">
+                        <div class="relative z-10 max-w-3xl">
+                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 mb-4">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                Live Test Portal Ready
+                            </span>
+                            <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                                RRB Technician Grade-I (Signal) <br/>
+                                <span class="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">Free Practice & Chapter Test Portal</span>
+                            </h2>
+                            <p class="mt-3 text-slate-300 text-xs sm:text-sm leading-relaxed">
+                                मैथमेटिक्स एवं सामान्य बुद्धिमत्ता (Reasoning) के सभी बेसिक से एडवांस्ड अध्यायों का अभ्यास। परीक्षा इंटरफ़ेस, इंस्टेंट स्कोरकार्ड और सटीक हिंदी हल के साथ।
+                            </p>
+                        </div>
+                    </div>
+                `;
+
+                this.db.forEach((subj) => {
+                    html += `
+                        <div class="mb-10">
+                            <div class="flex items-center gap-3 mb-5 border-b border-slate-800 dark:border-slate-800 light:border-slate-200 pb-3">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${subj.color} flex items-center justify-center text-white text-lg shadow-md">
+                                    <i class="fa-solid ${subj.icon}"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg sm:text-xl font-bold">${subj.name}</h3>
+                                    <p class="text-xs text-slate-400">${subj.chapters.length} Total Chapters</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    `;
+
+                    subj.chapters.forEach(ch => {
+                        const qList = this.questions[ch.id] || [];
+                        const qCount = qList.length;
+                        const timePerQ = ch.timePerQ || 60;
+                        const totalSecs = qCount * timePerQ;
+                        const mins = Math.ceil(totalSecs / 60);
+
+                        html += `
+                            <div class="glass-card rounded-2xl p-4 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-start mb-3">
+                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                                            ${ch.cat}
+                                        </span>
+                                        <span class="text-xs font-semibold px-2 py-0.5 rounded-md ${qCount > 0 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-slate-800 text-slate-400'}">
+                                            <i class="fa-solid fa-list-check mr-1"></i> ${qCount} Qs
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                                            <i class="fa-solid ${ch.icon || 'fa-book-open'} text-sm"></i>
+                                        </div>
+                                        <h4 class="text-sm font-bold leading-snug flex-1">
+                                            ${ch.title}
+                                        </h4>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5 pt-3 border-t border-slate-800/60 dark:border-slate-800/60 light:border-slate-200 flex items-center justify-between">
+                                    <span class="text-[11px] text-slate-400"><i class="fa-solid fa-clock mr-1"></i> ${mins} Mins (${timePerQ}s/Q)</span>
+                                    <button onclick="app.startTest('${subj.id}', '${ch.id}')" ${qCount === 0 ? 'disabled' : ''} class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition ${qCount > 0 ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/30' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}">
+                                        ${qCount > 0 ? 'Start Mock Test <i class="fa-solid fa-arrow-right ml-1"></i>' : 'No Questions'}
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    html += `</div></div>`;
+                });
+
+                viewport.innerHTML = html;
+            }
+
+            startTest(subjId, chId) {
+                const subj = this.db.find(s => s.id === subjId);
+                const ch = subj.chapters.find(c => c.id === chId);
+                const questions = this.questions[chId] || [];
+
+                if (questions.length === 0) {
+                    alert('इस अध्याय में अभी कोई प्रश्न उपलब्ध नहीं हैं। एडमिन पैनल से प्रश्न जोड़ें।');
+                    return;
+                }
+
+                const timePerQ = ch.timePerQ || 60;
+                const totalSeconds = questions.length * timePerQ;
+
+                this.currentTest = {
+                    subjId,
+                    chId,
+                    subjName: subj.name,
+                    chTitle: ch.title,
+                    questions: JSON.parse(JSON.stringify(questions)),
+                    currentIndex: 0,
+                    userAnswers: new Array(questions.length).fill(null),
+                    states: new Array(questions.length).fill('unanswered'),
+                    timeLeft: totalSeconds,
+                    totalTime: totalSeconds,
+                    submitted: false
+                };
+
+                this.renderTestPortal();
+                this.startTimer();
+            }
+
+            startTimer() {
+                this.stopTimer();
+                this.timerInterval = setInterval(() => {
+                    if (this.currentTest && this.currentTest.timeLeft > 0) {
+                        this.currentTest.timeLeft--;
+                        this.updateTimerDisplay();
+                    } else if (this.currentTest) {
+                        this.stopTimer();
+                        alert('समय समाप्त हो गया है! आपका टेस्ट सबमिट किया जा रहा है।');
+                        this.submitTest();
+                    }
+                }, 1000);
+            }
+
+            stopTimer() {
+                if (this.timerInterval) clearInterval(this.timerInterval);
+            }
+
+            updateTimerDisplay() {
+                const el = document.getElementById('test-timer-display');
+                if (!el || !this.currentTest) return;
+                const m = Math.floor(this.currentTest.timeLeft / 60);
+                const s = this.currentTest.timeLeft % 60;
+                el.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            }
+
+            renderTestPortal() {
+                const viewport = document.getElementById('app-viewport');
+                const t = this.currentTest;
+
+                let html = `
+                    <div class="flex flex-col lg:flex-row gap-6">
+                        <!-- Left Panel: Exam Engine -->
+                        <div class="flex-1 glass-panel rounded-2xl p-5 sm:p-7 flex flex-col justify-between min-h-[550px]">
+                            <div>
+                                <!-- Header Bar -->
+                                <div class="flex flex-wrap justify-between items-center border-b border-slate-800 dark:border-slate-800 light:border-slate-200 pb-4 mb-4 gap-2">
+                                    <div>
+                                        <span class="text-xs font-bold text-indigo-400">${t.subjName}</span>
+                                        <h3 class="text-base sm:text-lg font-bold">${t.chTitle}</h3>
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-slate-900 dark:bg-slate-900 light:bg-slate-100 px-4 py-2 rounded-xl border border-indigo-500/30">
+                                        <i class="fa-solid fa-clock text-indigo-400 animate-pulse"></i>
+                                        <span id="test-timer-display" class="font-mono text-base font-bold text-emerald-400">00:00</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                                        Question ${t.currentIndex + 1} of ${t.questions.length}
+                                    </span>
+                                    <span class="text-xs text-slate-400">Marks: +1, -0.33</span>
+                                </div>
+
+                                <!-- Question Box -->
+                                <div class="mb-6 bg-slate-900/60 dark:bg-slate-900/60 light:bg-slate-100 p-4 rounded-xl border border-slate-800 dark:border-slate-800 light:border-slate-200">
+                                    <p class="text-base sm:text-lg font-medium leading-relaxed">
+                                        ${t.questions[t.currentIndex].q}
+                                    </p>
+                                </div>
+
+                                <!-- Options -->
+                                <div class="space-y-3">
+                `;
+
+                const curQ = t.questions[t.currentIndex];
+                const curUserAns = t.userAnswers[t.currentIndex];
+
+                curQ.options.forEach((opt, oIdx) => {
+                    const isSelected = curUserAns === oIdx;
+                    html += `
+                        <label onclick="app.selectOption(${oIdx})" class="flex items-center p-3.5 rounded-xl border cursor-pointer transition ${isSelected ? 'bg-indigo-600/20 border-indigo-500 font-semibold shadow-md shadow-indigo-500/10' : 'bg-slate-900/40 dark:bg-slate-900/40 light:bg-white border-slate-800 dark:border-slate-800 light:border-slate-200 hover:border-indigo-500/50'}">
+                            <div class="w-6 h-6 rounded-full border flex items-center justify-center mr-3 ${isSelected ? 'border-indigo-500 bg-indigo-600 text-white' : 'border-slate-600'}">
+                                <span class="text-xs font-bold">${String.fromCharCode(65 + oIdx)}</span>
+                            </div>
+                            <span class="text-sm flex-1">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                html += `
+                                </div>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="mt-8 pt-4 border-t border-slate-800 dark:border-slate-800 light:border-slate-200 flex flex-wrap gap-3 justify-between items-center">
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="app.markForReview()" class="px-3.5 py-2 bg-purple-600/20 hover:bg-purple-600/30 text-purple-400 border border-purple-500/30 text-xs font-bold rounded-lg transition">
+                                        <i class="fa-solid fa-bookmark mr-1.5"></i> Mark for Review
+                                    </button>
+                                    <button onclick="app.clearResponse()" class="px-3.5 py-2 bg-slate-800 dark:bg-slate-800 light:bg-slate-200 text-xs font-bold rounded-lg transition">
+                                        Clear Response
+                                    </button>
+                                </div>
+
+                                <div>
+                                    ${t.currentIndex === t.questions.length - 1 ? `
+                                        <button onclick="app.submitTestConfirm()" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg shadow-lg shadow-emerald-600/30 transition flex items-center gap-1.5">
+                                            <i class="fa-solid fa-check-double"></i> Final Submit Test
+                                        </button>
+                                    ` : `
+                                        <button onclick="app.saveAndNext()" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg shadow-lg shadow-indigo-600/30 transition flex items-center gap-1.5">
+                                            Save & Next <i class="fa-solid fa-chevron-right"></i>
+                                        </button>
+                                    `}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Question Palette -->
+                        <div class="w-full lg:w-80 glass-panel rounded-2xl p-5 flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-sm font-bold mb-4 flex items-center gap-2">
+                                    <i class="fa-solid fa-grid-2 text-indigo-400"></i> Question Palette
+                                </h4>
+
+                                <div class="grid grid-cols-5 gap-2.5 mb-6">
+                `;
+
+                t.questions.forEach((_, qIdx) => {
+                    const state = t.states[qIdx];
+                    let stateClass = "bg-slate-800 dark:bg-slate-800 light:bg-slate-200 text-slate-400";
+                    if (state === 'answered') stateClass = "bg-emerald-600 border-emerald-500 text-white font-bold";
+                    if (state === 'review') stateClass = "bg-purple-600 border-purple-500 text-white font-bold";
+                    if (state === 'ans-review') stateClass = "bg-blue-600 border-blue-500 text-white font-bold";
+                    if (qIdx === t.currentIndex) stateClass += " ring-2 ring-indigo-400 ring-offset-2 ring-offset-slate-900";
+
+                    html += `
+                        <button onclick="app.jumpToQuestion(${qIdx})" class="w-10 h-10 rounded-xl border text-xs flex items-center justify-center transition ${stateClass}">
+                            ${qIdx + 1}
+                        </button>
+                    `;
+                });
+
+                html += `
+                                </div>
+
+                                <div class="space-y-2 text-xs border-t border-slate-800 dark:border-slate-800 light:border-slate-200 pt-4">
+                                    <div class="flex items-center gap-2"><span class="w-3.5 h-3.5 rounded bg-emerald-600"></span> <span>Answered</span></div>
+                                    <div class="flex items-center gap-2"><span class="w-3.5 h-3.5 rounded bg-slate-800 border border-slate-700"></span> <span>Unanswered</span></div>
+                                    <div class="flex items-center gap-2"><span class="w-3.5 h-3.5 rounded bg-purple-600"></span> <span>Marked for Review</span></div>
+                                    <div class="flex items-center gap-2"><span class="w-3.5 h-3.5 rounded bg-blue-600"></span> <span>Answered & Marked</span></div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 pt-4 border-t border-slate-800 dark:border-slate-800 light:border-slate-200">
+                                <button onclick="app.submitTestConfirm()" class="w-full py-2 bg-rose-600/20 hover:bg-rose-600/30 text-rose-400 border border-rose-500/30 text-xs font-bold rounded-xl transition">
+                                    Submit Test Early
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                viewport.innerHTML = html;
+                this.updateTimerDisplay();
+            }
+
+            selectOption(oIdx) {
+                if (!this.currentTest || this.currentTest.submitted) return;
+
+                const idx = this.currentTest.currentIndex;
+                this.currentTest.userAnswers[idx] = oIdx;
+                this.currentTest.states[idx] = 'answered';
+                this.renderTestPortal();
+            }
+
+            clearResponse() {
+                if (!this.currentTest || this.currentTest.submitted) return;
+                this.currentTest.userAnswers[this.currentTest.currentIndex] = null;
+                this.currentTest.states[this.currentTest.currentIndex] = 'unanswered';
+                this.renderTestPortal();
+            }
+
+            markForReview() {
+                if (!this.currentTest || this.currentTest.submitted) return;
+                const idx = this.currentTest.currentIndex;
+                const ans = this.currentTest.userAnswers[idx];
+                this.currentTest.states[idx] = (ans !== null) ? 'ans-review' : 'review';
+                if (idx < this.currentTest.questions.length - 1) this.currentTest.currentIndex++;
+                this.renderTestPortal();
+            }
+
+            saveAndNext() {
+                if (!this.currentTest || this.currentTest.submitted) return;
+                const idx = this.currentTest.currentIndex;
+                const ans = this.currentTest.userAnswers[idx];
+                this.currentTest.states[idx] = (ans !== null) ? 'answered' : 'unanswered';
+                if (idx < this.currentTest.questions.length - 1) this.currentTest.currentIndex++;
+                this.renderTestPortal();
+            }
+
+            jumpToQuestion(qIdx) {
+                if (!this.currentTest || this.currentTest.submitted) return;
+                if (qIdx < 0 || qIdx >= this.currentTest.questions.length) return;
+                this.currentTest.currentIndex = qIdx;
+                this.renderTestPortal();
+            }
+
+            submitTestConfirm() {
+                // Prevent a stale/double submission and handle missing test state safely.
+                if (!this.currentTest || this.currentTest.submitted) return;
+
+                if (confirm('क्या आप सचमुच अपना टेस्ट सबमिट करना चाहते हैं?')) {
+                    this.submitTest();
+                }
+            }
+
+            submitTest() {
+                // Timer expiry and the Submit button may fire close together.
+                // Submit only once, then always show the scorecard and all answers.
+                if (!this.currentTest || this.currentTest.submitted) return;
+
+                this.stopTimer();
+
+                const test = this.currentTest;
+                test.submitted = true;
+
+                let correct = 0;
+                let wrong = 0;
+                let unattempted = 0;
+
+                test.questions.forEach((q, idx) => {
+                    const uAns = test.userAnswers[idx];
+
+                    if (uAns === null || uAns === undefined) {
+                        unattempted++;
+                    } else if (Number(uAns) === Number(q.ans)) {
+                        correct++;
+                    } else {
+                        wrong++;
+                    }
+                });
+
+                const totalMarks = (correct * 1) - (wrong * 0.33);
+                const totalQuestions = test.questions.length;
+                const attempted = correct + wrong;
+                const accuracy = attempted > 0 ? Math.round((correct / attempted) * 100) : 0;
+                const timeTakenSeconds = Math.max(0, test.totalTime - test.timeLeft);
+
+                test.result = {
+                    totalQuestions,
+                    correct,
+                    wrong,
+                    unattempted,
+                    score: totalMarks.toFixed(2),
+                    accuracy,
+                    timeTaken: `${Math.floor(timeTakenSeconds / 60)}m ${timeTakenSeconds % 60}s`
+                };
+
+                // Show every question by default so correct and incorrect answers are visible.
+                this.renderResultScreen('all');
+            }
+
+            renderResultScreen(filterMode = 'all') {
+                const viewport = document.getElementById('app-viewport');
+                const res = this.currentTest.result;
+
+                let html = `
+                    <div class="space-y-6">
+                        <!-- Scorecard Box -->
+                        <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-800 dark:border-slate-800 light:border-slate-200 text-center">
+                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-3">
+                                <i class="fa-solid fa-trophy text-amber-400"></i> Final Scorecard Result
+                            </span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold mb-2">${this.currentTest.chTitle}</h2>
+                            <p class="text-xs text-slate-400 mb-6">${this.currentTest.subjName}</p>
+
+                            <!-- Metric Grid -->
+                            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 max-w-4xl mx-auto mb-6">
+                                <div class="bg-slate-900/80 dark:bg-slate-900/80 light:bg-slate-100 p-3.5 rounded-2xl border border-slate-800 dark:border-slate-800 light:border-slate-200">
+                                    <p class="text-[11px] font-semibold text-slate-400">Total Score</p>
+                                    <p class="text-xl font-extrabold text-indigo-400 mt-1">${res.score}</p>
+                                </div>
+                                <div class="bg-slate-900/80 dark:bg-slate-900/80 light:bg-slate-100 p-3.5 rounded-2xl border border-slate-800 dark:border-slate-800 light:border-slate-200">
+                                    <p class="text-[11px] font-semibold text-slate-400">Accuracy</p>
+                                    <p class="text-xl font-extrabold text-emerald-400 mt-1">${res.accuracy}%</p>
+                                </div>
+                                <div class="bg-slate-900/80 dark:bg-slate-900/80 light:bg-slate-100 p-3.5 rounded-2xl border border-slate-800 dark:border-slate-800 light:border-slate-200">
+                                    <p class="text-[11px] font-semibold text-slate-400">Correct</p>
+                                    <p class="text-xl font-extrabold text-emerald-400 mt-1">${res.correct}</p>
+                                </div>
+                                <div class="bg-slate-900/80 dark:bg-slate-900/80 light:bg-slate-100 p-3.5 rounded-2xl border border-slate-800 dark:border-slate-800 light:border-slate-200">
+                                    <p class="text-[11px] font-semibold text-slate-400">Wrong</p>
+                                    <p class="text-xl font-extrabold text-rose-400 mt-1">${res.wrong}</p>
+                                </div>
+                                <div class="bg-slate-900/80 dark:bg-slate-900/80 light:bg-slate-100 p-3.5 rounded-2xl border border-slate-800 dark:border-slate-800 light:border-slate-200">
+                                    <p class="text-[11px] font-semibold text-slate-400">Unattempted</p>
+                                    <p class="text-xl font-extrabold text-slate-400 mt-1">${res.unattempted}</p>
+                                </div>
+                                <div class="bg-slate-900/80 dark:bg-slate-900/80 light:bg-slate-100 p-3.5 rounded-2xl border border-slate-800 dark:border-slate-800 light:border-slate-200">
+                                    <p class="text-[11px] font-semibold text-slate-400">Time Taken</p>
+                                    <p class="text-xl font-extrabold text-amber-400 mt-1">${res.timeTaken}</p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap justify-center gap-3">
+                                <button onclick="app.navToHome()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition shadow-lg shadow-indigo-600/30">
+                                    <i class="fa-solid fa-house mr-1.5"></i> Back to Home
+                                </button>
+                                <button onclick="app.startTest('${this.currentTest.subjId}', '${this.currentTest.chId}')" class="px-5 py-2.5 bg-slate-800 dark:bg-slate-800 light:bg-slate-200 text-xs font-bold rounded-xl transition">
+                                    <i class="fa-solid fa-rotate-right mr-1.5"></i> Retake Test
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Solutions Section -->
+                        <div class="glass-panel rounded-3xl p-6 space-y-6">
+                            <div class="flex flex-wrap justify-between items-center border-b border-slate-800 dark:border-slate-800 light:border-slate-200 pb-4 gap-3">
+                                <div>
+                                    <h3 class="text-lg font-bold flex items-center gap-2">
+                                        <i class="fa-solid fa-magnifying-glass-chart text-indigo-400"></i> Question Solutions
+                                    </h3>
+                                    <p class="text-xs text-slate-400">उत्तर कुंजी एवं पूर्ण व्याख्या</p>
+                                </div>
+
+                                <div class="flex bg-slate-900 dark:bg-slate-900 light:bg-slate-100 p-1 rounded-xl border border-slate-800 dark:border-slate-800 light:border-slate-300 text-xs font-semibold">
+                                    <button onclick="app.renderResultScreen('wrong')" class="px-3.5 py-1.5 rounded-lg transition ${filterMode === 'wrong' ? 'bg-indigo-600 text-white' : 'text-slate-400'}">
+                                        Wrong Only (${res.wrong})
+                                    </button>
+                                    <button onclick="app.renderResultScreen('all')" class="px-3.5 py-1.5 rounded-lg transition ${filterMode === 'all' ? 'bg-indigo-600 text-white' : 'text-slate-400'}">
+                                        All Questions (${res.totalQuestions})
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="space-y-6">
+                `;
+
+                let displayed = 0;
+
+                this.currentTest.questions.forEach((q, idx) => {
+                    const uAns = this.currentTest.userAnswers[idx];
+                    const isCorrect = uAns === q.ans;
+                    const isUnanswered = uAns === null;
+
+                    if (filterMode === 'wrong' && isCorrect) return;
+
+                    displayed++;
+
+                    html += `
+                        <div class="bg-slate-900/60 dark:bg-slate-900/60 light:bg-white border ${isCorrect ? 'border-emerald-500/30' : isUnanswered ? 'border-slate-800' : 'border-rose-500/30'} rounded-2xl p-5 space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs font-bold text-slate-400">Question ${idx + 1}</span>
+                                <span class="px-3 py-1 rounded-full text-xs font-bold ${isCorrect ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : isUnanswered ? 'bg-slate-800 text-slate-400' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">
+                                    ${isCorrect ? '<i class="fa-solid fa-check mr-1"></i> Correct' : isUnanswered ? '<i class="fa-solid fa-minus mr-1"></i> Unattempted' : '<i class="fa-solid fa-xmark mr-1"></i> Wrong'}
+                                </span>
+                            </div>
+
+                            <p class="text-base font-medium">${q.q}</p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    `;
+
+                    q.options.forEach((opt, oIdx) => {
+                        const isUserChoice = uAns === oIdx;
+                        const isRightChoice = q.ans === oIdx;
+
+                        let optClass = "bg-slate-950 dark:bg-slate-950 light:bg-slate-100 border-slate-800 dark:border-slate-800 light:border-slate-200 text-slate-400";
+                        if (isRightChoice) optClass = "bg-emerald-600/20 border-emerald-500 text-emerald-400 font-bold";
+                        if (isUserChoice && !isRightChoice) optClass = "bg-rose-600/20 border-rose-500 text-rose-400 font-bold";
+
+                        html += `
+                            <div class="p-3 rounded-xl border flex items-center justify-between ${optClass}">
+                                <span><strong>${String.fromCharCode(65 + oIdx)}.</strong> ${opt}</span>
+                                ${isRightChoice ? '<span class="text-[10px] bg-emerald-500 text-slate-950 px-1.5 py-0.5 rounded font-bold">Correct</span>' : ''}
+                                ${isUserChoice && !isRightChoice ? '<span class="text-[10px] bg-rose-500 text-white px-1.5 py-0.5 rounded font-bold">Your Option</span>' : ''}
+                            </div>
+                        `;
+                    });
+
+                    html += `
+                            </div>
+
+                            <div class="bg-indigo-950/40 dark:bg-indigo-950/40 light:bg-indigo-50 border border-indigo-500/20 rounded-xl p-4 mt-3">
+                                <h4 class="text-xs font-bold text-indigo-400 mb-1 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-lightbulb text-amber-400"></i> व्याख्या / Explanation:
+                                </h4>
+                                <p class="text-xs text-slate-300 dark:text-slate-300 light:text-slate-700 leading-relaxed">
+                                    ${q.exp || "व्याख्या उपलब्ध नहीं है।"}
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                if (displayed === 0 && filterMode === 'wrong') {
+                    html += `
+                        <div class="text-center py-10 text-slate-400">
+                            <i class="fa-solid fa-circle-check text-4xl text-emerald-400 mb-3"></i>
+                            <p class="text-base font-bold text-white dark:text-white light:text-slate-900">बधाई हो! आपका एक भी प्रश्न गलत नहीं है।</p>
+                        </div>
+                    `;
+                }
+
+                html += `</div></div></div>`;
+                viewport.innerHTML = html;
+            }
+
+            openAdminModal() {
+                this.populateAdminSelects();
+                document.getElementById('admin-modal').classList.remove('hidden');
+            }
+
+            closeAdminModal() {
+                document.getElementById('admin-modal').classList.add('hidden');
+            }
+
+            switchAdminTab(tab) {
+                ['add-q', 'add-ch', 'backup'].forEach(t => {
+                    document.getElementById(`tab-content-${t}`).classList.add('hidden');
+                    document.getElementById(`tab-btn-${t}`).className = "pb-2 text-slate-400";
+                });
+                document.getElementById(`tab-content-${tab}`).classList.remove('hidden');
+                document.getElementById(`tab-btn-${tab}`).className = "pb-2 border-b-2 border-indigo-500 text-indigo-500 font-semibold";
+            }
+
+            populateAdminSelects() {
+                const subjSelect = document.getElementById('admin-select-subject');
+                const subjSelectCh = document.getElementById('admin-add-ch-subj-select');
+
+                subjSelect.innerHTML = this.db.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+                subjSelectCh.innerHTML = this.db.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+
+                this.onAdminSubjectChange();
+            }
+
+            onAdminSubjectChange() {
+                const subjId = document.getElementById('admin-select-subject').value;
+                const chSelect = document.getElementById('admin-select-chapter');
+                const subj = this.db.find(s => s.id === subjId);
+
+                if (subj && subj.chapters) {
+                    chSelect.innerHTML = subj.chapters.map(c => `<option value="${c.id}">${c.title}</option>`).join('');
+                }
+            }
+
+            importQuestionsJSON() {
+                const chId = document.getElementById('admin-select-chapter').value;
+                const timePerQ = parseInt(document.getElementById('admin-time-per-q').value) || 60;
+                const jsonText = document.getElementById('admin-json-input').value.trim();
+
+                if (!chId) return alert('अध्याय चुनें');
+
+                try {
+                    const parsed = JSON.parse(jsonText);
+                    if (!Array.isArray(parsed)) throw new Error("Format must be array");
+
+                    if (!this.questions[chId]) this.questions[chId] = [];
+                    this.questions[chId].push(...parsed);
+
+                    this.db.forEach(s => {
+                        s.chapters.forEach(c => {
+                            if (c.id === chId) {
+                                c.qCount = this.questions[chId].length;
+                                c.timePerQ = timePerQ;
+                            }
+                        });
+                    });
+
+                    this.saveStorage();
+                    alert(`सफलतापूर्वक ${parsed.length} प्रश्न जोड़े गए! समय = ${timePerQ} सेकंड प्रति प्रश्न`);
+                    document.getElementById('admin-json-input').value = '';
+                    this.closeAdminModal();
+                    this.renderHome();
+                } catch (err) {
+                    alert('JSON त्रुटि: ' + err.message);
+                }
+            }
+
+            addNewSubject() {
+                const name = document.getElementById('admin-new-subj-name').value.trim();
+                if (!name) return alert('नाम लिखें');
+
+                const newSubj = {
+                    id: "subj-" + Date.now(),
+                    name: name,
+                    icon: "fa-book-open",
+                    color: "from-indigo-600 to-purple-600",
+                    chapters: []
+                };
+
+                this.db.push(newSubj);
+                this.saveStorage();
+                alert('नया विषय जोड़ा गया!');
+                document.getElementById('admin-new-subj-name').value = '';
+                this.populateAdminSelects();
+                this.renderHome();
+            }
+
+            addNewChapter() {
+                const subjId = document.getElementById('admin-add-ch-subj-select').value;
+                const title = document.getElementById('admin-new-ch-title').value.trim();
+                const cat = document.getElementById('admin-new-ch-category').value;
+
+                if (!title) return alert('अध्याय का नाम दर्ज करें');
+
+                const newCh = {
+                    id: "ch-" + Date.now(),
+                    cat: cat,
+                    title: title,
+                    qCount: 0,
+                    timePerQ: 60,
+                    icon: "fa-folder"
+                };
+
+                const subj = this.db.find(s => s.id === subjId);
+                subj.chapters.push(newCh);
+                this.questions[newCh.id] = [];
+
+                this.saveStorage();
+                alert('अध्याय जोड़ा गया!');
+                document.getElementById('admin-new-ch-title').value = '';
+                this.populateAdminSelects();
+                this.renderHome();
+            }
+
+            exportDatabase() {
+                const fullData = { db: this.db, questions: this.questions };
+                const blob = new Blob([JSON.stringify(fullData, null, 2)], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'RRB_Mock_Database.json';
+                a.click();
+            }
+
+            resetDatabase() {
+                if (confirm('क्या आप सचमुच डेटा रीसेट करना चाहते हैं?')) {
+                    localStorage.removeItem('rrb_mock_db_v2');
+                    localStorage.removeItem('rrb_mock_questions_v2');
+                    this.initDB();
+                    this.closeAdminModal();
+                    this.renderHome();
+                    alert('डेटा रीसेट कर दिया गया है।');
+                }
+            }
+        }
+
+        let app;
+        window.addEventListener('DOMContentLoaded', () => {
+            app = new RRBApp();
+            app.renderHome();
+        });
+    </script>
+</body>
+</html>
